@@ -1,39 +1,20 @@
-let count2: number 
-
-count2 = 10
-
-console.log("Check code", count2)
-
-let name2 : string[] = ["Javascript", "PHP" , "Ruby"]
-
-name2.push("HTML&CSS")
-
-console.log(name2)
-
-let myVar : string | number = "Hello"
-
-
-console.log(myVar)
-
-let num :number = 10;
-let str: string = "Hello"
-
-function add(num1: number, num2: number) {
-    return num1 + num2
-}
-
-let result = add(10,20)
-
-console.log(result)
-
 interface Person {
-    name: string
-    age: number
+    name: string;
+    age: number;
+    email : string;
 }
 
-const viblo : Person = {
-    name: "毎日ITを勉強してる頑張りましょう",
-    age : 21
+
+function printPerson(person: Person)
+
+console.log(`Name: ${person.name}, Age: ${person.age} `)
+if (person.email) {
+    console.log(`Email: ${person.email}`)
 }
 
-console.log(viblo)
+
+const john: Person = {name: 'John', age:30}
+printPerson(john)
+
+const sarah: Person = {name: 'Sarah', age: 35, email:'huuhungnguyen2002@gmail.com'}
+printPerson(sarah)
