@@ -1,92 +1,33 @@
-let numbers : number[] = [1,2,3,4,5]
-console.log(numbers)
+// Boolean
+let skils : (string|number)[] = ["Hoi dan IT", 25]
+console.log(skils)
 
-interface Person {
-    name: string;
-    age: number;
+// Tuple: dataType/size/order
+let myTubple: [string, number, boolean] = ["Hello", 123, true]
+console.log(myTubple)
+
+function getName() : [string, number] {
+    return ["毎日ITを勉強してるがんばりましょう", 20 ]
 }
 
-let people: Person[] = [
-    {name: 'Alice', age: 25},
-    {name: 'Bob', age: 30},
-    {name: 'Charlie', age: 35}
-]
+let [content, age] = getName()
 
-console.log(people[1].name)
+console.log(content)
+console.log(age)
 
-let totalAge = 0;
-for(let person of people) {
-    totalAge += person.age
+function printNameAndAge(name: string, age: number): void {
+    console.log(`Name: ${name}`);
+    console.log(`Age: ${age}`);
+  }
+  
+  let myTuple: [string, number] = ["John", 30];
+  printNameAndAge(...myTuple); // sử dụng spread operator để truyền các phần tử trong Tuple Type vào hàm
+
+  
+function printNameAndAge2(content: string, what: string): void {
+    console.log(`Name: ${content}`);
+    console.log(`What: ${what}`)
 }
 
-console.log(totalAge)
-
-let matrix: number[][] = [
-    [1,2,3],
-    [4,5,6],
-    [7,8,9,10,11,12]
-];
-console.log(matrix[2])
-
-for (let row of matrix) {
-    for(let cell of row) {
-        console.log(cell)
-    }
-}
-
-let totals: number[] = [1,2,3,4,5];
-
-let sum = 0;
-for(let num of totals) {
-    sum += num
-}
-console.log(sum)
-    
-let everNumbers = numbers.filter( num => num%2 === 0);
-console.log(everNumbers)
-
-
-let fullCourse : (string | number)[] = [
-    "Javascript", "PHP", "Ruby"
-]
-
-fullCourse.push("ReactJS", "NodeJS")
-fullCourse.push(26,28,8)
-
-console.log(fullCourse)
-
-let myArray4: Array<string> = ["apple", "banana","orange"]
-myArray4.push("fine", "oke")
-
-console.log(myArray4)
-
-let myTuple: [string, number] = ["hello",123];
-console.log(myTuple[0]);
-console.log(myTuple[1]);
-
-
-let myTuples: [string, number][] = [
-    ["apple", 1],
-    ["banana", 2],
-    ["orange", 3],
-] 
-
-console.log(myTuples[0][0])
-console.log(myTuples[1][1])
-
-let myOptionalTuple: [string, number?] = ["hello", 1];
-console.log(myOptionalTuple[0])
-console.log(myOptionalTuple[1])
-
-
-let myRestTyple2: [string, ...number[]] = ["hello",4,5,6,7,8,9,0]
-console.log(myRestTyple2)
-
-function getTuple(): [string, number] {
-    return["Hello lets get status", 123]
-}
-
-let myTuple3: [string, number] = getTuple();
-console.log(myTuple3[0])
-console.log(myTuple3[1])
-
+let myTubple2: [string,string] = ["日本語が難しいですか", "毎日勉強しましょう"]
+printNameAndAge2(...myTubple2)
