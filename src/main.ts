@@ -1,22 +1,73 @@
-let myName: string
-let meaningOfLife: number
-let isLoading: boolean
-let album: number | string
+let stringArr = ['one', 'hey', 'Dave']
 
-myName = "John"
-meaningOfLife = 42 
-isLoading =true
-album = "毎日ITを勉強してる頑張りましょう"
+let guitar = ['Start', 'Les Paul', 5250]
+
+let mixedData = ['EVH', 1980, true]
+
+stringArr[0] = 'John'
+stringArr.push('hey')
 
 
-console.log(myName, meaningOfLife, isLoading, album)
-const sum = (a: number, b: string) => {
-    return a + b
+guitar[0] = 1984
+guitar.unshift('Jim')
+
+let test = []
+let bands: string[] = []
+bands.push('Van Halen')
+
+
+
+let myTuple: [string, number, boolean] = ['Dave', 42, true]
+let mixed = ['John', 1, false]
+myTuple[1] = 82
+
+let myObj: object
+myObj = []
+console.log(typeof myObj)
+myObj = bands
+myObj = {}
+
+const exampleObj = {
+    prop1: 'Dave',
+    prop2: true,
 }
 
-console.log(sum( 122 , "I am learning English with my Friend"))
+exampleObj.prop1 = 'John'
 
-let postId: string | number = "日本語が難しですが頑張ってください"
-let isActive: number | boolean = false
+interface Guitarist {
+    name ?: string,
+    active: boolean,
+    albums: (string | number)[]
+}
 
-console.log(postId)
+let evh: Guitarist = {
+    name: "Eddie",
+    active: false,
+    albums: [1984, 5150, 'asddd']
+}
+
+let JP: Guitarist = {
+    name: 'Jimmy',
+    active: true,
+    albums: ['JH','Name']
+}
+
+const greetGuitarist =(guitarist: Guitarist) => {
+    if(guitarist.name) {
+        return `Hello ${guitarist.name?.toUpperCase()}!`
+    }
+    return 'Hello!'
+}
+
+console.log(greetGuitarist(JP))
+
+// Enums 
+
+enum Grade {
+    U = "Huu Hung Nguyen",
+    D = 1,
+    C = "Face"
+}
+
+console.log(Grade.C)
+
