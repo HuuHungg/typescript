@@ -1,146 +1,200 @@
-// Example 1
-function convert<T,U> (input: T, converter:(input: T) => U):U {
-    return converter(input);
+interface Person {
+    name: string;
+    age: number;
+    address: string;
 }
 
-const str = '123'
-const num = convert(str, Number); // num = 123
+type PartialPerson = Partial<Person>;
 
-console.log(num)
+const Person: PartialPerson = {name: "John", age: 21, address: "毎日ITを勉強してる頑張ってください"}
+console.log(Person)
 
-// Example 2
 
-function sort<T>(array: T[], compareFn: (a: T, b: T) => number): T[] {
-    return array.sort(compareFn)
+interface Person2 {
+    name2 ?: string;
+    age2 ?: number;
+    address2 ?: string;
 }
 
-const numbers = [3,1,4,1,5,9,2,6,5,3,5]
-const sorted = sort(numbers,(a,b) => a - b)
-console.log(sorted)
+type RequiredPerson = Required<Person2>;
+const person2 : RequiredPerson = { name2: "Yushing", age2: 22, address2: "毎日ITを勉強してる"}
 
-// Generics
-const echo = <T>(arg: T):T => arg
+console.log(person2)
 
-const isObj = <T>(arg: T): boolean => {
-    return (typeof arg === 'object' && !Array.isArray(arg) && arg !==null)
+console.log("===========")
+// NonNullable
+interface User {
+    fistName: string;
+    lastName: string;
+    age ?: number;
+    address ?: string | null;
 }
 
-console.log(isObj(true))
-console.log(isObj('John'))
-console.log(isObj([1,2,3]))
-console.log(isObj({name: 'John'}))
-console.log(isObj(null))
+type NonNullableUser = NonNullable<User>
 
-
-const isTrue = <T>(arg: T): {arg: T, is: boolean} => {
-    if(Array.isArray(arg) && !arg.length) {
-        return {arg, is: false}
-    }
-    if(isObj(arg) && !Object.keys(arg as keyof T).length) {
-        return {arg, is:false}
-    }
-    return {arg, is: !!arg}
+const user: NonNullableUser = {
+    fistName: "John",
+    lastName: "Doe",
+    address: "HN, VN",
+    id: 0,
+    name: "",
+    username: "",
+    email: ""
 }
 
-console.log(isTrue(false))
-console.log(isTrue(0))
-console.log(isTrue(true))
-console.log(isTrue(1))
+console.log(user)
 
+console.log("======")
 
-
-interface BoolCheck<T> {
-    value: T,
-    is: boolean,
+function add(a: number, b: number): number {
+    return a + b
 }
 
-const checkBoolValue  = <T>(arg: T): BoolCheck<T> => {
-    if(Array.isArray(arg) && !arg.length) {
-        return {value: arg, is: false}
-    }
-    if(isObj(arg) && !Object.keys(arg as keyof T).length) {
-        return {value: arg, is:false}
-    }
-    return {value:arg, is: !!arg}
-}
+type AddReturnType = ReturnType<typeof add>
+const result: AddReturnType = 20
 
-interface HasID {
-    id: number
-}
+console.log(result)
 
-const processUser = <T extends HasID>(user: T): T => {
-    return user
-}
-
-console.log(processUser({id: 1, name: "Dave"}))
-
-const getUsersProperty = <T extends HasID, K extends keyof T> (users: T[], key: K): T[K][] => {
-    return users.map(user => user[key])
-}
-
-
-
-function generic<M>(arg: M):M {
-    return arg;
-}
-
-let output1 = generic<string>("I am learning")
-let output2 = generic<boolean>(true)
-let output3 = generic<number> (145)
-let output4 = generic<string> ("毎日ITを勉強してる頑張りましょう")
-
-console.log(output1)
-console.log(output2)
-console.log(output3)
-console.log(output4)
-
-console.log("====")
-
-class Queue<T> {
-    private data: T[] = []
-    
-    push(item: T) {
-        this.data.push(item);
-    }
-
-    pop(): T | undefined {
-        return this.data.shift();
-    }
-}
-
-let q = new Queue<string>()
-
-q.push("日本")
-q.push("英語")
-
-console.log(q.pop());
-console.log(q.pop());
-console.log(q.pop());
-console.log(q.pop());
-
+// Utility Type
 console.log("=====")
 
-interface Pair <C,H,> {
-    firstName: C;
-    Age: H
-    Addrest: C
+// Partial cho phép bạn tạo một phiên bản mới của một kiểu dữ liệu với tất cả các thuộc tính đều là optional:
+
+interface Assignment {
+    studentId: string,
+    title: string,
+    grade: number,
+    verified ?: boolean,
 }
 
-let pair1: Pair<string,number> = {firstName: "Yushing", Age: 21, Addrest:"ITを勉強してる"}
-let pair2: Pair<string,boolean> = {firstName: "Guen", Age: false, Addrest: "Vn"}
-
-console.log(pair1)
-console.log(pair2)
-
-console.log("====")
-
-interface Lengthwise {
-    length: number;
+const updateAssignment = (assign: Assignment, propsToUpdate: Partial<Assignment>): Assignment => {
+    return {...assign, ...propsToUpdate}
 }
 
-function logLength<T extends Lengthwise>(arg: T): void {
-    console.log(arg.length);
+const assign1: Assignment = {
+    studentId: "compsci123",
+    title: "Final Projesct", 
+    grade: 0,
+    verified : false,
 }
 
-logLength("頑張ってください")
-logLength([1,2,4,5,6])
+const assignGraded : Assignment = updateAssignment(assign1, { grade: 95})
+console.log(assignGraded)
+
+
+// Required and ReadOnly
+const recordAssignment = (assign: Required<Assignment>): Assignment => {
+    return assign
+}
+
+const assignVerified: Readonly<Assignment> = {
+    ...assignGraded, verified: true
+}
+
+recordAssignment({...assignGraded, verified: true})
+
+// Record
+const hexColorMap: Record<string, string> = {
+    red: "FF000",
+    green: "00FF00",
+    blue:"000FF"
+}
+
+type Students = "Sara" | "Kelly"
+type LetterGrades = "A" | "B" | "C" | "D" | "U" 
+
+const LetterGrades: Record<Students, LetterGrades> = {
+    Sara: "B",
+    Kelly: "U"
+}
+
+interface Grades {
+    assign1: number,
+    assign2: number,
+}
+
+const gradeData: Record<Students, Grades> = {
+        Sara: {assign1: 85, assign2: 93},
+        Kelly: {assign1: 76, assign2: 15},
+}
+
+console.log(gradeData)
+
+// Pick and Omit
+
+type AssignResult = Pick<Assignment, "studentId" | "grade">
+
+const score: AssignResult = {
+    studentId: "k123",
+    grade: 85,
+}
+
+console.log(score)
+
+type AssigPreview = Omit<Assignment, "grade" | "verified">
+
+const priview: AssigPreview = {
+    studentId: "k123",
+    title: "Final Project"
+}
+
+console.log(priview)
+
+// Exclude and Extract
+
+type adjustedGrade = Exclude<LetterGrades, "U">
+
+
+type hightGrades = Extract<LetterGrades, "A" | "B">
+
+// Nonnullable
+
+type AllPossibleGrades = "Dave" | "John" | null | undefined
+
+type NamesOnly = NonNullable<AllPossibleGrades>
+
+// ReturnType
+
+//type newAssign = {title: string, points: number}
+
+const createNewAssign = (title: string, points: number, fullCourse: string, address: string) => {
+    return {title, points, fullCourse, address}
+}
+
+type NewAssign = ReturnType<typeof createNewAssign>
+
+const tsAssign: NewAssign = createNewAssign("ITを勉強してる頑張りましょう", 100, "2 triệu", "ITが難しいです")
+console.log(tsAssign)
+
+// Parameter
+
+type AssignParams = Parameters<typeof createNewAssign>
+
+const assignArgs: AssignParams = [ "Generics", 200, "4tr", "日本語を勉強して英語を勉強してる"]
+
+const tsAssign2: NewAssign = createNewAssign(...assignArgs)
+console.log(tsAssign2)
+
+// Awaited - helps us width the ReturnType of a Promise 
+
+interface User {
+    id: number,
+    name: string,
+    username: string,
+    email: string,
+}
+
+const fetchUser = async(): Promise<User[]> => {
+    const data = await fetch (
+        'https://jsonplaceholder.typicode.com/users'
+    ).then(res => {
+        return res.json()
+    }).catch(err => {
+        if(err instanceof Error) console.log(err.message)
+    })
+    return data
+}
+
+type FetchUsersReturnType = Awaited<ReturnType<typeof fetchUser>>
+
+fetchUser().then(users => console.log(users))
